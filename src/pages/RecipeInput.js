@@ -11,6 +11,7 @@ export default function AddRecipe() {
     name: "",
     description: "",
     ingredients: "",
+    instructions: "",
     image: "",
     cookingTime: "",
   });
@@ -71,6 +72,16 @@ export default function AddRecipe() {
             className="form-textarea"
             placeholder="Ingredients (comma-separated)"
             value={recipe.ingredients}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <textarea
+            name="instructions"
+            className="form-textarea"
+            placeholder="Instructions"
+            value={recipe.instructions}
             onChange={handleChange}
             required
           />

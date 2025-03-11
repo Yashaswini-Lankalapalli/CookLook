@@ -3,11 +3,16 @@ import RecipeCard from "../components/RecipeCard";
 import EditRecipeModal from "../components/EditRecipeModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root"); // Required for accessibility
 
 export default function Recipes() {
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
   const [editingRecipe, setEditingRecipe] = useState(null);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     fetchRecipes();
@@ -36,10 +41,6 @@ export default function Recipes() {
     setEditingRecipe(recipe); // Open modal with selected recipe
   };
 
-  const handleRecipeAdded = (newRecipe) => {
-    setRecipes((prevRecipes) => [...prevRecipes, newRecipe]);
-  };
-
   const handleUpdateRecipe = async () => {
     if (!editingRecipe) return;
 
@@ -61,6 +62,16 @@ export default function Recipes() {
     }
   };
 
+  const openModal = (recipe) => {
+    setSelectedRecipe(recipe);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedRecipe(null);
+    setModalIsOpen(false);
+  };
+
   return (
     <div>
       <h1>Recipes</h1>
@@ -71,7 +82,7 @@ export default function Recipes() {
       <div className="recipes-container">
         {recipes.length > 0 ? (
           recipes.map((recipe) => (
-            <RecipeCard key={recipe._id} recipe={recipe} onDelete={onDelete} onEdit={onEdit} />
+            <RecipeCard key={recipe._id} recipe={recipe} onDelete={onDelete} onEdit={onEdit} onClick={() => openModal(recipe)} />
           ))
         ) : (
           <p>No recipes available. Add one!</p>
@@ -87,6 +98,42 @@ export default function Recipes() {
           setEditingRecipe={setEditingRecipe}
         />
       )}
+
+      {/* View Recipe Modal */}
+      {/* View Recipe Modal */}
+<Modal
+  isOpen={modalIsOpen}
+  onRequestClose={closeModal}
+  className="modal"
+  overlayClassName="modal-overlay"
+>
+  {selectedRecipe && (
+    <div className="modal-content">
+      <h2 className="modal-title">{selectedRecipe.name}</h2>
+      <img src={selectedRecipe.image} alt={selectedRecipe.name} className="modal-image" />
+
+      <div className="modal-section">
+        <h3>Description</h3>
+        <p>{selectedRecipe.description}</p>
+      </div><br/>
+
+      <div className="modal-section">
+        <h3>Ingredients</h3>
+        <p>{selectedRecipe.ingredients}</p>
+      </div><br/>
+
+      <div className="modal-section">
+        <h3>Instructions</h3>
+        <p>{selectedRecipe.instructions}</p>
+      </div><br/>
+
+      <p className="cooking-time"><strong>Cooking Time:</strong> {selectedRecipe.cookingTime} minutes</p>
+
+      <button onClick={closeModal} className="btn">Close</button>
+    </div>
+  )}
+</Modal>
+
     </div>
   );
 }

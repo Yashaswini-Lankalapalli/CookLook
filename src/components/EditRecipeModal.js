@@ -24,6 +24,17 @@ export default function EditRecipeModal({ recipe, onClose, onSave, setEditingRec
           value={recipe.ingredients}
           onChange={(e) => setEditingRecipe({ ...recipe, ingredients: e.target.value })}
         />
+        <p>Instructions</p>
+        <textarea
+          value={recipe.instructions}
+          onChange={(e) => setEditingRecipe({ ...recipe, instructions: e.target.value })}
+        />
+        <p>Image URL</p>
+        <input
+          type="text"
+          value={recipe.image}
+          onChange={(e) => setEditingRecipe({ ...recipe, image: e.target.value })}
+        />
         <p>Cooking time</p>
         <input
           type="number"

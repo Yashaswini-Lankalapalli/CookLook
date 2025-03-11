@@ -12,7 +12,8 @@ import Recipes from "./pages/Recipes";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import RecipeInput from "./pages/RecipeInput"
+import RecipeInput from "./pages/RecipeInput";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/RecipeInput" element={<RecipeInput />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>
       </div>
       <Footer />
